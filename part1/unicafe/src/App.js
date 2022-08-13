@@ -6,13 +6,10 @@ const Header = ({value}) => {
   )
 }
 const incrementState = (state, setState) => {
-  //console.log('Setting ',state)
   setState(state + 1)
 }
 
-const Button = ({eventHandle, text}) => {
-  //console.log("In button")
-  
+const Button = ({eventHandle, text}) => {  
   return(
     <button onClick={eventHandle}>{text}</button>
   )
@@ -28,7 +25,6 @@ const StatisticLine = ({text, value}) => {
 }
 
 const Statistics = ({good, neutral, bad}) => {
-  //console.log(good,neutral,bad)
   const total = good + neutral + bad
 
   if (total === 0)
