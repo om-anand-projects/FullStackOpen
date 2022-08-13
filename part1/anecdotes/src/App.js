@@ -6,6 +6,18 @@ const Button = ({eventHandle, text}) => {
   )
 }
 
+const DisplayAnecdote = ({anecdote}) => {
+  return (
+    <div>{anecdote}</div>
+  )
+}
+
+const DisplayVotes = ({votes}) => {
+  return (
+    <div>has {votes} votes</div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -16,18 +28,27 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-   
+
   const [selected, setSelected] = useState(0)
+  const [anecdotePoints, setAnecdotePoints] = useState(new Array(anecdotes.length).fill(0))
 
   const nextRandomAnecdote = () => {
     const randomIndex = Math.floor( Math.random() * anecdotes.length )
-    //console.log('Rand index',randomIndex)
+    //console.log('Points',anecdotePoints)
     setSelected(randomIndex)
+  }
+
+  const voteAnecdote = () => {
+    const tempAnecdotePoints =  [...anecdotePoints]
+    tempAnecdotePoints[selected] += 1
+    setAnecdotePoints(tempAnecdotePoints)
   }
 
   return (
     <>
-      <div>{anecdotes[selected]}</div>
+      <DisplayAnecdote anecdote={anecdotes[selected]} />
+      <DisplayVotes votes={anecdotePoints[selected]} />
+      <Button eventHandle={voteAnecdote} text='vote'/>
       <Button eventHandle={nextRandomAnecdote} text='next anecdote'/>
     </>
     
