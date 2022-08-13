@@ -1,7 +1,13 @@
 import { useState } from 'react'
+
+const Header = ({value}) => {
+  return(
+    <h1>{value}</h1>
+  )
+}
 const incrementState = (state, setState) => {
   //console.log('Setting ',state)
-  setState(state => state + 1)
+  setState(state + 1)
 }
 
 const Button = ({eventHandle, text}) => {
@@ -14,7 +20,10 @@ const Button = ({eventHandle, text}) => {
 
 const StatisticLine = ({text, value}) => {
   return(
-    <div>{text} {value}</div>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
 }
 
@@ -27,14 +36,14 @@ const Statistics = ({good, neutral, bad}) => {
       <div>No feedback given</div>
     )
   return (
-    <>
+    <table>
       <StatisticLine value={good} text='good'/>
       <StatisticLine value={neutral} text='neutral'/>
       <StatisticLine value={bad} text='bad'/>
       <StatisticLine value={total} text='all'/>
       <StatisticLine value={(good-bad)/total} text='average'/>
       <StatisticLine value={good*100/total + ' %'} text='positive'/>
-    </>
+    </table>
   )
 }
 
@@ -46,10 +55,11 @@ const App = () => {
 
   return (
     <div>
-      <h1>give feedback</h1>
+      <Header value='give feedback' />
       <Button eventHandle={() => incrementState(good, setGood)} text='good'/>
       <Button eventHandle={() => incrementState(neutral, setNeutral)} text='neutral'/>
       <Button eventHandle={() => incrementState(bad, setBad)} text='bad'/>
+      <Header value='statistics' />
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
