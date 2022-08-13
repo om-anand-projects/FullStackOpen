@@ -21,6 +21,11 @@ const DisplayState = ({beforeText, state, afterText}) => {
 const Statistics = ({good, neutral, bad}) => {
   //console.log(good,neutral,bad)
   const total = good + neutral + bad
+
+  if (total === 0)
+    return (
+      <div>No feedback given</div>
+    )
   return (
     <>
       <DisplayState state={good} beforeText='good'/>
