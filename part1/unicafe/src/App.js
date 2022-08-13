@@ -12,20 +12,23 @@ const Button = ({eventHandle, text}) => {
   )
 }
 
-const DisplayState = ({state, text}) => {
+const DisplayState = ({beforeText, state, afterText}) => {
   return(
-    <div>{text} {state}</div>
+    <div>{beforeText} {state} {afterText}</div>
   )
 }
 
 const Statistics = ({good, neutral, bad}) => {
   //console.log(good,neutral,bad)
-
+  const total = good + neutral + bad
   return (
     <>
-      <DisplayState state={good} text='good'/>
-      <DisplayState state={neutral} text='neutral'/>
-      <DisplayState state={bad} text='bad'/>
+      <DisplayState state={good} beforeText='good'/>
+      <DisplayState state={neutral} beforeText='neutral'/>
+      <DisplayState state={bad} beforeText='bad'/>
+      <DisplayState state={total} beforeText='all'/>
+      <DisplayState state={(good-bad)/total} beforeText='average'/>
+      <DisplayState state={good*100/total} beforeText='positive' afterText='%'/>
     </>
   )
 }
