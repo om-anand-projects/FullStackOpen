@@ -10,6 +10,14 @@ const Part = ({name, exercises}) => {
   )
 }
 
+const Total = ({courses}) => {
+  return (
+    <p>
+      total of {courses.reduce( (reducingValue, course) => reducingValue + course.exercises, 0)} exercises
+    </p>
+  )
+}
+
 const Content = ({courses}) => {
   return (
     <>
@@ -17,6 +25,7 @@ const Content = ({courses}) => {
           <Part key={course.id} name={course.name} exercises={course.exercises} />
         )
       }
+      <Total courses={courses} />
     </>
   )
 }
