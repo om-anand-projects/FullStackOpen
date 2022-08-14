@@ -1,3 +1,36 @@
+const Header = ({value}) => {
+  return (
+    <h1>{value}</h1>
+  )
+}
+
+const Part = ({name, exercises}) => {
+  return (
+    <p>{name} {exercises}</p>
+  )
+}
+
+const Content = ({courses}) => {
+  return (
+    <>
+      { courses.map( course => 
+          <Part key={course.id} name={course.name} exercises={course.exercises} />
+        )
+      }
+    </>
+  )
+}
+
+const Course = ({course}) => {
+  return (
+    <>
+      <Header value={course.name} />
+      <Content courses={course.parts} />
+    </>
+  )
+}
+
+
 const App = () => {
   const course = {
     id: 1,
