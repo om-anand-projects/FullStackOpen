@@ -1,11 +1,5 @@
 import { useState } from 'react'
 
-const Header = ({value}) => {
-  return(
-    <h2>{value}</h2>
-  )
-}
-
 const Persons = ({ persons }) => {
   return (
     <ul>
@@ -23,6 +17,26 @@ const Filter = ({value, onChange}) => {
     </div>
   )
 }
+const Input = ({input, handleChange}) => {
+  return (
+    <div>
+      {input.text}: <input value={input.value} onChange={(event) => handleChange(event, input.setValue)} />
+    </div>
+  )
+}
+
+const PersonForm = ({onSubmit, inputs}) => {
+  return (
+    <form onSubmit={onSubmit}>
+      {inputs.inputValues.map( input => 
+        <Input key={input.text} input={input} handleChange={inputs.handleChange} />
+      )}
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -38,10 +52,9 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    //console.log('Event submit in addName ',event);
 
     const newPersonObject = { name: newName, number: newNumber, id: persons.length + 1 }
-    //console.log('new name',newNameObject)
+
     if (persons.find(person => person.name === newPersonObject.name))
       alert(`${newPersonObject.name} is already added to phonebook`)
     else {
@@ -57,23 +70,29 @@ const App = () => {
 
   const filteredResults = persons.filter(person => person.name.toLowerCase().includes(filterValue.toLowerCase()))
   
+  const inputs = {
+    handleChange: handleNewInputChange,
+    inputValues: [
+      {
+        text: 'name',
+        value: newName,
+        setValue: setNewName
+      },
+      {
+        text: 'number',
+        value: newNumber,
+        setValue: setNewNumber
+      }
+    ]
+  }
+
   return (
     <div>
-      <Header value='Phonebook' />
+      <h2>Phonebook</h2>
       <Filter value={filterValue} onChange={(event) => handleNewInputChange(event, setFilterValue)} />
-      <Header value='add a new' />
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={(event) => handleNewInputChange(event, setNewName)} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={(event) => handleNewInputChange(event, setNewNumber)} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <Header value='Numbers' />
+      <h3>Add a new</h3>
+      <PersonForm onSubmit={addName} inputs={inputs} />
+      <h3>Numbers</h3>
       <Persons persons={filteredResults} />
     </div>
   )
