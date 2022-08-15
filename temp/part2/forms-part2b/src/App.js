@@ -11,7 +11,7 @@ const App = (props) => {
     console.log('button clicked', event.target)
 
     const noteObject = {
-      id: notes.length,
+      id: notes.length + 1,
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() < 0.5
