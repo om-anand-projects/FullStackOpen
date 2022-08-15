@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
-const Persons = ({persons}) => {
+const Persons = ({ persons }) => {
   return (
     <ul>
-      {persons.map( person =>
-        <li key={person.name}>{person.name}</li>)
+      {persons.map(person =>
+        <li key={person.name}>{person.name} {person.number}</li>)
       }
     </ul>
   )
@@ -12,29 +12,28 @@ const Persons = ({persons}) => {
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
+    { name: 'Arto Hellas', number: '040-1234567' }
+  ])
   const [newName, setNewName] = useState('')
-
+  const [newNumber, setNewNumber] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
     //console.log('Event submit in addName ',event);
-    
-    const newNameObject = { name: newName}
+
+    const newPersonObject = { name: newName, number: newNumber }
     //console.log('new name',newNameObject)
-    if (persons.find(person => person.name === newNameObject.name))
-      alert(`${newNameObject.name} is already added to phonebook`)
+    if (persons.find(person => person.name === newPersonObject.name))
+      alert(`${newPersonObject.name} is already added to phonebook`)
     else {
-      setPersons(persons.concat(newNameObject))
+      setPersons(persons.concat(newPersonObject))
       setNewName('')
+      setNewNumber('')
     }
   }
 
-
-  const handleNewNameChange = (event) => {
-    //console.log('Event onchange in button ',event);
-    setNewName(event.target.value)
+  const handleNewInputChange = (event, setValue) => {
+    setValue(event.target.value)
   }
 
   return (
@@ -42,7 +41,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addName}>
         <div>
-          name: <input value={newName} onChange={handleNewNameChange}/>
+          name: <input value={newName} onChange={(event) => handleNewInputChange(event, setNewName)} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={(event) => handleNewInputChange(event, setNewNumber)} />
         </div>
         <div>
           <button type="submit">add</button>
