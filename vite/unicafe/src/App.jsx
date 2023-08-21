@@ -9,6 +9,8 @@ const Statistics = ({ good, neutral, bad }) => {
   const all = good + neutral + bad;
   const average = (good - bad)/all;
   const positive = 100*good/all;
+  if (all === 0 )
+    return <><div>No feedback given</div></>
   return (
     <>
       <StatisticRow counter={good} text="good" />
