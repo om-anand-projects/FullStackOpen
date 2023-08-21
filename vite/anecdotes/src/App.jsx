@@ -10,6 +10,15 @@ const Display = ({ anecdote, votes }) => {
     </>
   )
 }
+
+const Title = ({title}) => {
+  return (
+    <>
+    <h1>{title}</h1>
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -23,7 +32,8 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
-  const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
+  const [highestVotedAnecdote, setHighestVotedAnecdote] = useState(0)
+  const [points, setPoints] = useState(new Uint32Array(anecdotes.length))
 
   const setRandomAnecdote = () => {
     let anecdoteIndex = Math.floor(Math.random() * anecdotes.length)
@@ -35,13 +45,20 @@ const App = () => {
     const newPoints = [...points]
     newPoints[selected] += 1
     setPoints(newPoints)
+
+    if (newPoints[selected] > newPoints[highestVotedAnecdote]) {
+      setHighestVotedAnecdote(selected)
+    }
   }
 
   return (
     <div>
+      <Title title='Anecdote of the day' />
       <Display anecdote={anecdotes[selected]} votes={points[selected]} />
       <Button handleClick={incrementPoint} text='vote' />
       <Button handleClick={setRandomAnecdote} text='next anecdote' />
+      <Title title='Anecdote with most votes' />
+      <Display anecdote={anecdotes[highestVotedAnecdote] } votes={points[highestVotedAnecdote]} />
     </div>
   )
 }
