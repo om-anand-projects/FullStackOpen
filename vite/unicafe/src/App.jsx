@@ -4,7 +4,7 @@ const Title = ({ title }) => <h1>{title}</h1>
 
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 
-const StatisticRow = ({ counter, text }) => <div>{text} {counter}</div>
+const StatisticLine = ({ value, text }) => <div>{text} {value}</div>
 const Statistics = ({ good, neutral, bad }) => {
   const all = good + neutral + bad;
   const average = (good - bad)/all;
@@ -13,13 +13,12 @@ const Statistics = ({ good, neutral, bad }) => {
     return <><div>No feedback given</div></>
   return (
     <>
-      <StatisticRow counter={good} text="good" />
-      <StatisticRow counter={neutral} text="neutral" />
-      <StatisticRow counter={bad} text="bad" />
-      <StatisticRow counter={all} text="all" />
-      <StatisticRow counter={average} text="average" />
-      {/* <StatisticRow counter={positive} text="positive" /> */}
-      <div>positive {positive} %</div>
+      <StatisticLine value={good} text="good" />
+      <StatisticLine value={neutral} text="neutral" />
+      <StatisticLine value={bad} text="bad" />
+      <StatisticLine value={all} text="all" />
+      <StatisticLine value={average} text="average" />
+      <StatisticLine value={positive + ' %'} text="positive" />
     </>
   )
 }
