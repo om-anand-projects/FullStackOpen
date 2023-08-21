@@ -6,11 +6,18 @@ const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</
 
 const StatisticRow = ({ counter, text }) => <div>{text} {counter}</div>
 const Statistics = ({ good, neutral, bad }) => {
+  const all = good + neutral + bad;
+  const average = (good - bad)/all;
+  const positive = 100*good/all;
   return (
     <>
       <StatisticRow counter={good} text="good" />
       <StatisticRow counter={neutral} text="neutral" />
       <StatisticRow counter={bad} text="bad" />
+      <StatisticRow counter={all} text="all" />
+      <StatisticRow counter={average} text="average" />
+      {/* <StatisticRow counter={positive} text="positive" /> */}
+      <div>positive {positive} %</div>
     </>
   )
 }
