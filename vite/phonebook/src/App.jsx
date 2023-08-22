@@ -7,13 +7,36 @@ const Input = ({ inputText, inputValue, onChange }) => {
   )
 }
 
-const PersonsList = ({ persons }) => {
+const Filter = ({ searchText, handleChange }) => {
+  return (
+    <>
+      < Input inputText="filter shown with " inputValue={searchText} onChange={handleChange} />
+    </>
+  )
+}
+
+const PersonForm = ({ newName, newNumber, handleNameChange, handleNumberChange, submitAction }) => {
+  return (
+    <>
+      <form onSubmit={submitAction}>
+        <Input inputText="name" inputValue={newName} onChange={handleNameChange} />
+        <Input inputText="number" inputValue={newNumber} onChange={handleNumberChange} />
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </>
+  )
+}
+
+const Persons = ({ persons }) => {
   return (
     <>
       {persons.map(person => <div key={person.name}>{person.name} {person.number} </div>)}
     </>
   )
 }
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -50,17 +73,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Input inputText="filter shown with " inputValue={searchText} onChange={handleNewSearchTextChange} />
+      <Filter searchText={searchText} handleChange={handleNewSearchTextChange} />
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <Input inputText="name" inputValue={newName} onChange={handleNewNameChange} />
-        <Input inputText="number" inputValue={newNumber} onChange={handleNewNumberChange} />
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm newName={newName} newNumber={newNumber} handleNameChange={handleNewNameChange} handleNumberChange={handleNewNumberChange} submitAction={addPerson} />
       <h2>Numbers</h2>
-      <PersonsList persons={filteredPersons()} />
+      <Persons persons={filteredPersons()} />
     </div>
   )
 }
