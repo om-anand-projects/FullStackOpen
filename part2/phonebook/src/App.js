@@ -21,13 +21,13 @@ const App = () => {
 
     const newPersonObject = { name: newName, number: newNumber, id: persons.length + 1 }
     const existingPerson = persons.find(person => person.name === newPersonObject.name)
-    if (existingPerson){
+    if (existingPerson) {
       const confirmUpdate = window.confirm(`${newPersonObject.name} is already added to phonebook, replace the old number with a new one?`)
       if (confirmUpdate) {
-        const updatedPerson = {...existingPerson, number: newPersonObject.number}
+        const updatedPerson = { ...existingPerson, number: newPersonObject.number }
         personService.update(updatedPerson).then(data => {
           const updatedPersons = persons.map(person => person.id !== updatedPerson.id ? person : data)
-          setPersons(updatedPersons )
+          setPersons(updatedPersons)
         })
       }
     }
@@ -48,13 +48,13 @@ const App = () => {
   }
 
   const handleDeleteClick = (id) => {
-    const deletePerson = persons.filter(person => person.id === id)
+    const deletePerson = persons.find(person => person.id === id)
     if (window.confirm(`Delete ${deletePerson.name} ?`))
-    personService.remove(id).then(response => {
-      const updatedPersons = persons.filter(person => person.id !== id)
-      setPersons(updatedPersons)
-    }
-    )
+      personService.remove(id).then(response => {
+        const updatedPersons = persons.filter(person => person.id !== id)
+        setPersons(updatedPersons)
+      }
+      )
   }
 
   const filteredResults = persons.filter(person => person.name.toLowerCase().includes(filterValue.toLowerCase()))
