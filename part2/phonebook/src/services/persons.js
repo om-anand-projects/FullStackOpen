@@ -12,9 +12,12 @@ const create = (newPersonObject) => {
     return request.then(response => response.data)
 }
 
+const remove = (id) => axios.delete(`${baseUrl}/${id}`)
+
 const personService = {
     getAll,
-    create
+    create,
+    remove
 }
 
 export default personService
