@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.json())
 
 let persons = [
   {
@@ -42,6 +43,17 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end()
 })
 
+app.post('/api/persons', (request, response) => {
+  if (!(request.body.name && request.body.number)) {
+    return response.status(400).json({
+      error: 'number or name missing'
+    })
+  }
+  
+  const newPerson = { id: generateRandomId(), name: request.body.name, number: request.body.number }
+  persons = persons.concat(newPerson)
+  return response.json(persons)
+})
 
 app.get('/info', (request, response) => {
   let body = ''
@@ -56,3 +68,12 @@ const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+const generateRandomId = () => {
+  const existingIds = [...persons.map(person => person.id)]
+  let id = Math.floor(Math.random() * 10000)
+  while (existingIds.includes(id)) {
+    id = Math.floor(Math.random() * 10000)
+  }
+  return id
+}
