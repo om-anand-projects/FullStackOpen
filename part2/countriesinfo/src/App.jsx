@@ -20,10 +20,12 @@ function App() {
     return countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
   }
 
+  const handleClick = (event) => setFilter(event.target.value)
+
   return (
     <>
-    <div>find countries <input onChange={onChange}></input></div>
-    <Display countries={filteredCountries()}/>    
+    <div>find countries <input onChange={onChange} value={filter}></input></div>
+    <Display countries={filteredCountries()} handleClick={handleClick}/>    
     </>
   )
 }
