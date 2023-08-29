@@ -2,30 +2,39 @@ const express = require('express')
 const app = express()
 
 let persons = [
-  { 
+  {
     "id": 1,
-    "name": "Arto Hellas", 
+    "name": "Arto Hellas",
     "number": "040-123456"
   },
-  { 
+  {
     "id": 2,
-    "name": "Ada Lovelace", 
+    "name": "Ada Lovelace",
     "number": "39-44-5323523"
   },
-  { 
+  {
     "id": 3,
-    "name": "Dan Abramov", 
+    "name": "Dan Abramov",
     "number": "12-43-234345"
   },
-  { 
+  {
     "id": 4,
-    "name": "Mary Poppendieck", 
+    "name": "Mary Poppendieck",
     "number": "39-23-6423122"
   }
 ]
 
 app.get('/api/persons', (request, response) => {
   response.json(persons)
+})
+
+app.get('/info', (request, response) => {
+  let body = ''
+  body = body.concat(`<div>Phonebook has info for ${persons.length} people</div>`)
+  body = body.concat('<br/>')
+  body = body.concat(`<div>${new Date()}</div>`)
+  console.log(body)
+  response.send(body)
 })
 
 const PORT = 3001
