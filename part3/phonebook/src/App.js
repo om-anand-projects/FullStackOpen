@@ -42,7 +42,7 @@ const App = () => {
         .create(newPersonObject)
         .then(data => {
           // console.log(persons.concat(response.data))
-          setPersons(persons.concat(data))
+          setPersons(data)
           setNewName('')
           setNewNumber('')
           successMessage = `Added ${newPersonObject.name}`
