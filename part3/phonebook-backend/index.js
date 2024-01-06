@@ -41,20 +41,21 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  Person.findOne({ 'id': id }).then(person => {
+  Person.findById(request.params.id).then(person => {
     if (person)
       response.json(person)
     else
       response.status(404).end()
+  }).catch(error => {
+    console.log(error)
+    response.status(500).end()
   })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  Person.findOne({ 'id': id }).then(person => {
+  Person.findById(request.params.id).then(person => {
     if (person)
-      Person.deleteOne({ 'id': id }).then(
+      Person.findByIdAndDelete(request.params.id).then(
         script => {
           response.status(204).end()
         })
@@ -78,7 +79,6 @@ app.post('/api/persons', (request, response) => {
       })
     }
     const newPerson = new Person({
-      id: generateRandomId(),
       name: request.body.name,
       number: request.body.number
     })
@@ -102,12 +102,3 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
-const generateRandomId = () => {
-  const existingIds = [...persons.map(person => person.id)]
-  let id = Math.floor(Math.random() * 10000)
-  while (existingIds.includes(id)) {
-    id = Math.floor(Math.random() * 10000)
-  }
-  return id
-}
