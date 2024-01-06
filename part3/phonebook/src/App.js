@@ -62,8 +62,8 @@ const App = () => {
   const triggerMessage = (updatedNotificationMessage) => {
     setNotificationMessage(updatedNotificationMessage)
     setTimeout(() => {
-      setNotificationMessage( {success: null, error: null })
-    }, 5000);
+      setNotificationMessage( { success: null, error: null })
+    }, 5000)
   }
 
   const triggerSuccessMessage = (message) => triggerMessage({ error: null, success: message })
@@ -79,11 +79,11 @@ const App = () => {
     if (window.confirm(`Delete ${deletePerson.name} ?`))
       personService
         .remove(id)
-        .then(response => {
+        .then(() => {
           const updatedPersons = persons.filter(person => person.id !== id)
           setPersons(updatedPersons)
         })
-        .catch(error => {
+        .catch(() => {
           const errorMessage = `Information of ${deletePerson.name} has already been removed from the server`
           triggerErrorMessage(errorMessage)
           const updatedPersons = persons.filter(person => person.id !== id)

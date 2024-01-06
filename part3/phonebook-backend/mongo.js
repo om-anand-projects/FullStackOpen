@@ -14,31 +14,31 @@ mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const personSchema = new mongoose.Schema({
-    person: String,
-    number: String,
+  person: String,
+  number: String,
 })
 
 const Person = mongoose.model('persons', personSchema)
 
-if (process.argv.length == 3) {
-    Person.find({}).then(
-        result => {
-            console.log('Phonebook:')
-            result.map(record => {
-                console.log(`${record.person} ${record.number}`)
-            })
-            mongoose.connection.close()          
-        }
-    )
+if (process.argv.length === 3) {
+  Person.find({}).then(
+    result => {
+      console.log('Phonebook:')
+      result.map(record => {
+        console.log(`${record.person} ${record.number}`)
+      })
+      mongoose.connection.close()
+    }
+  )
 }
-else if (process.argv.length == 5) {
-    const person = new Person({
+else if (process.argv.length === 5) {
+  const person = new Person({
     person: process.argv[3],
     number: process.argv[4],
-    })
+  })
 
-    person.save().then(result => {
+  person.save().then(() => {
     console.log('person saved!')
     mongoose.connection.close()
-    })
+  })
 }
