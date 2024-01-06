@@ -100,6 +100,16 @@ app.post('/api/persons', (request, response, next) => {
   }).catch(error => next(error))
 })
 
+app.put('/api/persons/:id', (request, response, next) => {
+  updatedPerson = {
+    number: request.body.number
+  }
+  Person.findByIdAndUpdate(request.params.id, updatedPerson, { new: true }).then(
+    result => {
+      return response.json(result)
+    }).catch(error => next(error))
+})
+
 app.get('/info', (request, response) => {
   let body = ''
   body = body.concat(`<div>Phonebook has info for ${persons.length} people</div>`)

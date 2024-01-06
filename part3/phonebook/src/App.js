@@ -35,6 +35,10 @@ const App = () => {
             successMessage = `Updated ${updatedPerson.name}`
             triggerSuccessMessage(successMessage)
           })
+          .catch(error => {
+            const errorMessage = `Unable to update ${updatedPerson.name} details`
+            triggerErrorMessage(errorMessage)
+          })
       }
     }
     else {
