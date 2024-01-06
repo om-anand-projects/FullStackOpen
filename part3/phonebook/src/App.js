@@ -35,6 +35,10 @@ const App = () => {
             successMessage = `Updated ${updatedPerson.name}`
             triggerSuccessMessage(successMessage)
           })
+          .catch(error => {
+            const errorMessage = `Unable to update ${updatedPerson.name} details. Error: ${error.response.data.error}`
+            triggerErrorMessage(errorMessage)
+          })
       }
     }
     else {
@@ -42,13 +46,16 @@ const App = () => {
         .create(newPersonObject)
         .then(data => {
           // console.log(persons.concat(response.data))
-          setPersons(data)
+          setPersons(persons.concat(data))
           setNewName('')
           setNewNumber('')
           successMessage = `Added ${newPersonObject.name}`
           triggerSuccessMessage(successMessage)
         })
-
+        .catch(error => {
+          const errorMessage = `Unable to create ${newPersonObject.name} record. Error: ${error.response.data.error}`
+          triggerErrorMessage(errorMessage)
+        })
     }
   }
 
