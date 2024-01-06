@@ -3,7 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
-morgan.token('data', function (request, response) { return JSON.stringify(request.body) })
+morgan.token('data', function (request) { return JSON.stringify(request.body) })
 
 const errorHandler = (error, request, response, next) => {
   console.log(error.message)
@@ -70,7 +70,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
     if (person)
       Person.findByIdAndDelete(request.params.id).then(
-        script => {
+        () => {
           response.status(204).end()
         })
     else
@@ -87,7 +87,7 @@ app.post('/api/persons', (request, response, next) => {
 
   Person.findOne({ 'name': request.body.name }).then(result => {
     if (result) {
-      console.log("Found duplicate")
+      console.log('Found duplicate')
       return response.status(400).json({
         error: 'The name already exists in the phonebook'
       })
@@ -104,7 +104,7 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  updatedPerson = {
+  const updatedPerson = {
     number: request.body.number
   }
   Person.findByIdAndUpdate(
@@ -118,8 +118,12 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 app.get('/info', (request, response) => {
+  let records = 0
+  Person.find({}).then(result => {
+    records = result.length
+  })
   let body = ''
-  body = body.concat(`<div>Phonebook has info for ${persons.length} people</div>`)
+  body = body.concat(`<div>Phonebook has info for ${records} people</div>`)
   body = body.concat('<br/>')
   body = body.concat(`<div>${new Date()}</div>`)
   // console.log(body)
