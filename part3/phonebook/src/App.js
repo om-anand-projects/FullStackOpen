@@ -36,7 +36,7 @@ const App = () => {
             triggerSuccessMessage(successMessage)
           })
           .catch(error => {
-            const errorMessage = `Unable to update ${updatedPerson.name} details`
+            const errorMessage = `Unable to update ${updatedPerson.name} details. Error: ${error.response.data.error}`
             triggerErrorMessage(errorMessage)
           })
       }
@@ -52,7 +52,10 @@ const App = () => {
           successMessage = `Added ${newPersonObject.name}`
           triggerSuccessMessage(successMessage)
         })
-
+        .catch(error => {
+          const errorMessage = `Unable to create ${newPersonObject.name} record. Error: ${error.response.data.error}`
+          triggerErrorMessage(errorMessage)
+        })
     }
   }
 

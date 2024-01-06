@@ -11,6 +11,9 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }
+  else if (error.name === 'ValidationError') {
+    return response.status(400).send({ error: error.message })
+  }
 
   next(error)
 }
@@ -25,28 +28,28 @@ app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 app.use(express.static('build'))
 
-let persons = [
-  {
-    "id": 1,
-    "name": "Arto Hellas",
-    "number": "040-123456"
-  },
-  {
-    "id": 2,
-    "name": "Ada Lovelace",
-    "number": "39-44-5323523"
-  },
-  {
-    "id": 3,
-    "name": "Dan Abramov",
-    "number": "12-43-234345"
-  },
-  {
-    "id": 4,
-    "name": "Mary Poppendieck",
-    "number": "39-23-6423122"
-  }
-]
+// let persons = [
+//   {
+//     "id": 1,
+//     "name": "Arto Hellas",
+//     "number": "040-123456"
+//   },
+//   {
+//     "id": 2,
+//     "name": "Ada Lovelace",
+//     "number": "39-44-5323523"
+//   },
+//   {
+//     "id": 3,
+//     "name": "Dan Abramov",
+//     "number": "12-43-234345"
+//   },
+//   {
+//     "id": 4,
+//     "name": "Mary Poppendieck",
+//     "number": "39-23-6423122"
+//   }
+// ]
 
 app.get('/api/persons', (request, response, next) => {
   Person.find({}).then(
@@ -96,7 +99,7 @@ app.post('/api/persons', (request, response, next) => {
     newPerson.save().then(
       result => {
         return response.json(result)
-      })
+      }).catch(error => next(error))
   }).catch(error => next(error))
 })
 
@@ -104,10 +107,14 @@ app.put('/api/persons/:id', (request, response, next) => {
   updatedPerson = {
     number: request.body.number
   }
-  Person.findByIdAndUpdate(request.params.id, updatedPerson, { new: true }).then(
-    result => {
-      return response.json(result)
-    }).catch(error => next(error))
+  Person.findByIdAndUpdate(
+    request.params.id,
+    updatedPerson,
+    { new: true, runValidators: true, context: 'query' })
+    .then(
+      result => {
+        return response.json(result)
+      }).catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
