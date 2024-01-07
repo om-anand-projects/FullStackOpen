@@ -5,6 +5,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
+const config = require('./utils/config')
 
 const blogSchema = new mongoose.Schema({
     title: String,
@@ -15,8 +16,7 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = process.env.MONGO_URI
-mongoose.connect(mongoUrl)
+mongoose.connect(config.mongoUrl)
 
 app.use(cors())
 app.use(express.json())
@@ -43,6 +43,6 @@ app.post('/api/blogs', (request, response) => {
 app.use(middleware.unknownEndpoint)
 
 const PORT = process.env.PORT
-app.listen(PORT, () => {
+app.listen(config.PORT, () => {
     logger.info(`Server running on port ${PORT}`)
 })
