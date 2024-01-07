@@ -40,6 +40,8 @@ app.post('/api/blogs', (request, response) => {
         })
 })
 
+app.use(middleware.unknownEndpoint)
+
 const PORT = process.env.PORT
 app.listen(PORT, () => {
     logger.info(`Server running on port ${PORT}`)
