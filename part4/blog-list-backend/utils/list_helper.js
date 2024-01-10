@@ -1,3 +1,5 @@
+var collection = require('lodash/collection')
+
 // eslint-disable-next-line no-unused-vars
 const dummy = (blogs) => {
     return 1
@@ -15,7 +17,7 @@ const favoriteBlog = (blogs) => {
     if (!blogs)
         return null
 
-    const mostLikedBlog = {
+    let mostLikedBlog = {
         title: null,
         author: null,
         likes: -1
@@ -32,8 +34,28 @@ const favoriteBlog = (blogs) => {
     return mostLikedBlog
 }
 
+const mostBlogs = (blogs) => {
+    if (!blogs)
+        return null
+
+    const authors = collection.countBy(blogs, (blog) => blog['author'])
+    let authorWithMostBlogs = {
+        author: null,
+        blogs: 0
+    }
+
+    collection.forEach(authors, (authorBlogCount, author) => {
+        if (authorBlogCount > authorWithMostBlogs['blogs']) {
+            authorWithMostBlogs['author'] = author
+            authorWithMostBlogs['blogs'] = authorBlogCount
+        }
+    })
+    return authorWithMostBlogs
+}
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }
