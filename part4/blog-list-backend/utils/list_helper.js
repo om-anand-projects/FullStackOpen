@@ -53,9 +53,29 @@ const mostBlogs = (blogs) => {
     return authorWithMostBlogs
 }
 
+const mostLikes = (blogs) => {
+    if (!blogs)
+        return null
+
+    const authors = collection.groupBy(blogs, (blog) => blog['author'])
+    let authorWithMostLikes = {
+        author: null,
+        likes: 0
+    }
+    collection.forEach(authors, (authorsBlogs, author) => {
+        const authorLikes = collection.reduce(authorsBlogs, (sum, blog) => sum + blog['likes'], 0)
+        if (authorWithMostLikes['likes'] < authorLikes) {
+            authorWithMostLikes['author'] = author
+            authorWithMostLikes['likes'] = authorLikes
+        }
+    })
+    return authorWithMostLikes
+}
+
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
