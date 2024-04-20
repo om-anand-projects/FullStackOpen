@@ -1,3 +1,4 @@
+const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -16,6 +17,13 @@ it('API correct number of blogs', async () => {
     await api
         .get('/api/blogs')
         .expect(200)
+})
+
+it.only('API id param', async () => {
+    const blogs = (await api.get('/api/blogs')).body
+    blogs.forEach( blog => {
+        assert(Object.hasOwn(blog,'id'))
+    })
 })
 
 afterAll(async () => {
