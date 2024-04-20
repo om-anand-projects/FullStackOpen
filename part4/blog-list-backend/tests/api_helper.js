@@ -23,4 +23,13 @@ const newBlogWithoutLikes =
     'title': 'Completing Full Stack Open Part 6', 'author': 'Om6', 'url': 'twitch.tv/newbiesan'
 }
 
-module.exports = { initialBlogs, newBlog, newBlogWithoutLikes }
+const newBlogWithoutTitle =
+{
+    'author': 'Om6', 'url': 'twitch.tv/newbiesan'
+}
+
+const newBlogWithoutURL =
+{
+    'title': 'Completing Full Stack Open Part 8', 'author': 'Om6'
+}
+module.exports = { initialBlogs, newBlog, newBlogWithoutLikes, newBlogWithoutTitle, newBlogWithoutURL }

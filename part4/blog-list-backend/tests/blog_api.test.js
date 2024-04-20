@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../model/blog')
-const { initialBlogs, newBlog, newBlogWithoutLikes } = require('./api_helper')
+const { initialBlogs, newBlog, newBlogWithoutLikes, newBlogWithoutTitle, newBlogWithoutURL } = require('./api_helper')
 
 const api = supertest(app)
 
@@ -40,7 +40,7 @@ it('API Check insertion', async () => {
     assert.deepEqual(foundBlogs[0], savedBlog)
 })
 
-it.only('API Check 0 likes default', async () => {
+it('API Check 0 likes default', async () => {
     const response = await api
         .post('/api/blogs')
         .send(newBlogWithoutLikes)
@@ -50,6 +50,18 @@ it.only('API Check 0 likes default', async () => {
 
     const foundBlog = blogs.filter(blog => blog.id === savedBlog.id)[0]
     assert(foundBlog.likes === 0)
+})
+
+it('API Check no title or url', async () => {
+    await api
+        .post('/api/blogs')
+        .send(newBlogWithoutTitle)
+        .expect(400)
+
+    await api
+        .post('/api/blogs')
+        .send(newBlogWithoutURL)
+        .expect(400)
 })
 
 
