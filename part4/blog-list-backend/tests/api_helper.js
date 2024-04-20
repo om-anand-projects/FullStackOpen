@@ -18,4 +18,9 @@ const newBlog =
     'title': 'Completing Full Stack Open Part 5', 'author': 'Om5', 'url': 'twitch.tv/newbiesan', 'likes': 1
 }
 
-module.exports = { initialBlogs, newBlog }
+const newBlogWithoutLikes =
+{
+    'title': 'Completing Full Stack Open Part 6', 'author': 'Om6', 'url': 'twitch.tv/newbiesan'
+}
+
+module.exports = { initialBlogs, newBlog, newBlogWithoutLikes }
